@@ -210,7 +210,10 @@ meter::-moz-meter-bar { background: var(--color-accent); }
 .field { display: flex; flex-direction: column; gap: 8px; font-size: .75rem; font-weight: 600; min-width: 0; }
 .field input, .field select { width: 100%; min-height: 48px; border: 0; border-bottom: 1px solid var(--color-ink); border-radius: 0; padding: 8px 0; background: transparent; color: var(--color-ink); font-size: 1rem; font-weight: 400; }
 .field select { padding-right: 16px; font-size: .875rem; }
+.field input[aria-invalid="true"], .field select[aria-invalid="true"] { border-bottom-color: var(--color-accent); }
+.field-error, .number-not-configured { color: var(--color-accent); font-size: .75rem; font-weight: 600; line-height: 1.5; }
 .admission-slip form > .small-note { margin-top: 24px; }
+.number-not-configured { margin-top: 12px; }
 .submit-button { width: 100%; margin-top: 24px; }
 .next-panel { padding: 24px 20px; border-top: 1px solid var(--color-ink); }
 .status-confirmation { color: var(--color-success); font-weight: 600; font-size: .8125rem; border-left: 3px solid var(--color-success); padding-left: 12px; }

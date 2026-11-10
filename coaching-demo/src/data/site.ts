@@ -165,13 +165,15 @@ export const site = {
     title: "One class before a whole year.",
     description: "Choose a batch, meet the teacher and ask about the fee. The sample demo has no payment or enrolment obligation.",
     coordinator: { initials: "PJ", name: "Priya Joshi", role: "Demo-class coordinator · Fictional", message: "I’ll help you find the right subject teacher and a slot around school.", cta: "WhatsApp Priya" },
-    phone: "+910000000000", whatsapp: "910000000000",
-    whatsappMessage: "Hello Priya, I would like to enquire about one free demo class.",
+    phone: "+910000000000",
+    whatsapp: {
+      genericMessage: "Hi, I'd like to know more about a free demo class.",
+    },
     email: "hello@aarambh.example",
     address: "First floor, Sample Learning Centre, Example Road, Demo Nagar, India · Fictional address",
     timings: "Mon–Sat · 9 am–7 pm IST · Sample hours",
     detailsLabels: { address: "Find the classroom", timings: "When Priya is available", email: "Write to Priya" },
-    placeholderNote: "Demo contact details only. The phone and WhatsApp numbers do not reach this fictional academy.",
+    placeholderNote: "Demo contact details only. The phone number is fictional; WhatsApp opens the number configured for this demo.",
     form: {
       title: "Demo-class admission slip", reference: "Enquiry only / No payment",
       name: "Student name", phone: "Parent phone", class: "Class group", batch: "Preferred batch",
@@ -179,15 +181,24 @@ export const site = {
       classes: ["Std 8–10", "Std 11–12 Science", "Std 11–12 Commerce", "JEE / NEET / CET foundation"],
       batches: ["Weekday", "Weekend", "Please help me choose"],
       submit: "Book a Free Demo Class",
-      notice: "Demo only: these 4 fields stay in your browser. No enquiry is sent and no seat is reserved.",
-      confirmation: "Demo preview: here’s what would happen next.",
+      notice: "Tapping Book opens WhatsApp with your details. Send the message to confirm.",
+      numberNotConfigured: "Number not configured. Add NEXT_PUBLIC_WHATSAPP_NUMBER to enable WhatsApp handoff.",
+      numberNotConfiguredWarning: "NEXT_PUBLIC_WHATSAPP_NUMBER is not configured; WhatsApp handoff is disabled.",
+      errors: {
+        name: "Enter the student's name.",
+        phone: "Enter a valid 10-digit Indian mobile number.",
+        class: "Choose a class group.",
+        batch: "Choose a preferred batch.",
+      },
+      messageTemplate: "Hi, I'd like to book a free demo class. Student: {name}. Class: {classGroup}. Batch: {batch}. Parent phone: {phone}.",
+      confirmation: "WhatsApp is ready. Your demo is confirmed only after you send the message in WhatsApp.",
       nextTitle: "What happens next",
       steps: [
         { title: "Within 2 working hours", description: "Priya would WhatsApp you during Mon–Sat, 9 am–7 pm IST. After-hours enquiries would wait until the next working day." },
         { title: "Choose your demo slot", description: "You would confirm the subject, batch time and teacher before any visit." },
         { title: "Meet the faculty", description: "Attend one regular lesson, then decide whether to enrol. No payment for the demo." },
       ],
-      nextNote: "Illustrative process only. This website sends no WhatsApp message or confirmation.",
+      nextNote: "Illustrative process only. Sending the WhatsApp message is required before a demo is confirmed.",
     },
   },
   footer: {
@@ -198,7 +209,17 @@ export const site = {
   },
 };
 
+const configuredWhatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+
+export const hasWhatsAppNumber = Boolean(configuredWhatsAppNumber && /^\d+$/.test(configuredWhatsAppNumber));
+
+export function createWhatsAppUrl(message: string) {
+  if (!hasWhatsAppNumber || !configuredWhatsAppNumber) return null;
+
+  return `https://wa.me/${configuredWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+}
+
 export const contactLinks = {
   call: `tel:${site.contact.phone}`,
-  whatsapp: `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(site.contact.whatsappMessage)}`,
+  whatsapp: createWhatsAppUrl(site.contact.whatsapp.genericMessage),
 };
