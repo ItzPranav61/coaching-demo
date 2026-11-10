@@ -39,6 +39,9 @@ export default function Contact({ classValue, batchValue, onClassChange, onBatch
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   const content = site.contact;
+  const numberNotConfigured = process.env.NODE_ENV === "development"
+    ? content.form.numberNotConfiguredDevelopment
+    : content.form.numberNotConfiguredProduction;
 
   useEffect(() => {
     if (!hasWhatsAppNumber && process.env.NODE_ENV === "development") {
@@ -92,7 +95,7 @@ export default function Contact({ classValue, batchValue, onClassChange, onBatch
     <div className="container contact-grid">
       <div className="contact-copy"><h2 id="contact-title">{content.title}</h2><p className="intro">{content.description}</p>
         <div className="coordinator"><span className="initials" aria-hidden="true">{content.coordinator.initials}</span><div><h3>{content.coordinator.name}</h3><p className="small-note">{content.coordinator.role}</p></div></div>
-        <p className="coordinator-message">{content.coordinator.message}</p><a className="button" href={contactLinks.whatsapp ?? "#contact"} aria-disabled={!contactLinks.whatsapp}>{content.coordinator.cta}</a>
+        <p className="coordinator-message">{content.coordinator.message}</p><a className="button" href={contactLinks.whatsapp ?? contactLinks.call}>{content.coordinator.cta}</a>
         <dl className="contact-details">
           <div><dt>{content.detailsLabels.address}</dt><dd>{content.address}</dd></div>
           <div><dt>{content.detailsLabels.timings}</dt><dd>{content.timings}</dd></div>
@@ -110,7 +113,7 @@ export default function Contact({ classValue, batchValue, onClassChange, onBatch
             <label className="field" htmlFor={fieldIds.batch}>{content.form.batch}<select id={fieldIds.batch} name="batch" value={batchValue} onChange={event => { onBatchChange(event.target.value); clearError("batch"); }} aria-invalid={Boolean(errors.batch)} aria-describedby={errors.batch ? `${fieldIds.batch}-error` : undefined}><option value="" disabled>{content.form.chooseBatch}</option>{content.form.batches.map(item => <option key={item}>{item}</option>)}</select>{errors.batch && <span id={`${fieldIds.batch}-error`} className="field-error" role="alert">{errors.batch}</span>}</label>
           </div>
           <p id="form-notice" className="small-note">{content.form.notice}</p>
-          {!hasWhatsAppNumber && <p className="number-not-configured" role="status">{content.form.numberNotConfigured}</p>}
+          {!hasWhatsAppNumber && <p className="number-not-configured" role="status">{numberNotConfigured}</p>}
           <button type="submit" aria-describedby="form-notice" className="button primary submit-button">{content.form.submit}</button>
         </form>
         <div role="status" aria-live="polite" aria-atomic="true">{submitted && <div className="next-panel">

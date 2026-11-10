@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 export type Course = {
   id: string;
   title: string;
@@ -23,9 +25,21 @@ export const site = {
   primaryCta: "Book a Free Demo Class",
   demoNote: "A fictional academy. A working website demo.",
   metadata: {
+    metadataBase: new URL("https://coaching-demo-ruddy.vercel.app"),
     title: "Aarambh Academy | The report card demo",
     description: "Fictional Std 8–12 coaching demo with sample fees, progress reports and a free class enquiry. All content is illustrative.",
-  },
+    openGraph: {
+      title: "Aarambh Academy | The report card demo",
+      description: "Fictional Std 8–12 coaching demo with sample fees, progress reports and a free class enquiry. All content is illustrative.",
+      type: "website",
+      locale: "en_IN",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Aarambh Academy | The report card demo",
+      description: "Fictional Std 8–12 coaching demo with sample fees, progress reports and a free class enquiry. All content is illustrative.",
+    },
+  } satisfies Metadata,
   nav: [
     { label: "Home", href: "#home" },
     { label: "Courses", href: "#courses" },
@@ -82,7 +96,7 @@ export const site = {
       {
         id: "science", title: "Std 11–12 Science", shortTitle: "11–12 Science", classValue: "Std 11–12 Science", batchValue: "Weekday",
         audience: "PCM or PCB, with board-style written practice.", batch: "Mon–Thu · 6–8 pm",
-        seatsTaken: 12, seatsTotal: 20, includes: ["16 subject sessions + revision notes", "4 topic tests + one doubt clinic a week"],
+        seatsTaken: 12, seatsTotal: 20, includes: ["16 subject sessions + revision notes", "4 topic tests + Friday parent reports"],
         fee: "₹3,600", feeNote: "per month · Notes & tests included. No registration fee.",
       },
       {
@@ -94,7 +108,7 @@ export const site = {
       {
         id: "foundation", title: "JEE / NEET / CET foundation", shortTitle: "Foundation", classValue: "JEE / NEET / CET foundation", batchValue: "Weekend",
         audience: "Std 9–12 students starting entrance-exam concepts.", batch: "Sat / Sun · 9 am–12 pm",
-        seatsTaken: 16, seatsTotal: 20, includes: ["8 concept sessions + practice sets", "4 topic tests + one study-plan review"],
+        seatsTaken: 16, seatsTotal: 20, includes: ["8 concept sessions + practice sets", "4 topic tests + Friday parent reports"],
         fee: "₹3,200", feeNote: "per month · Notes & tests included. No registration fee.",
       },
     ] satisfies Course[],
@@ -155,7 +169,7 @@ export const site = {
     items: [
       { question: "What will we pay?", answer: "The sample monthly fees are ₹2,400 for Std 8–10, ₹3,600 for Science, ₹2,800 for Commerce and ₹3,200 for Foundation. Printed notes and tests are included, with no registration fee. These are fictional prices; a real enrolment would require written fee and cancellation terms first." },
       { question: "Will the timing fit around school?", answer: "School batches run Mon/Wed/Fri, 5–7 pm; Science Mon–Thu, 6–8 pm; Commerce Tue/Thu/Sat, 5–7 pm; Foundation Sat/Sun, 9 am–12 pm. All timings are samples in IST and would be reconfirmed before enrolment." },
-      { question: "Is the free demo a real class?", answer: "The sample offer is one regular lesson with the subject teacher, not a sales presentation. There is no payment or enrolment obligation. This demo website does not reserve a seat or send messages." },
+      { question: "Is the free demo a real class?", answer: "The sample offer is one regular lesson with the subject teacher, not a sales presentation. There is no payment or enrolment obligation. Tapping Book opens WhatsApp with your details; the demo is confirmed only after you send the message." },
       { question: "How many students share a batch?", answer: "The sample limit is 20 students. Seat meters show invented counts, not live availability. The coordinator would confirm the actual batch size before you enrol." },
       { question: "What happens after a weekly test?", answer: "Each sample subject has one topic test per week. Teachers review errors in the next lesson and use the 30-minute weekly doubt clinic for questions that need more time." },
       { question: "How will I know if my child is struggling?", answer: "The sample Friday report includes attendance, test scores and a teacher’s next-step note. A 15-minute monthly mentor conversation reviews the study plan with the parent." },
@@ -182,7 +196,8 @@ export const site = {
       batches: ["Weekday", "Weekend", "Please help me choose"],
       submit: "Book a Free Demo Class",
       notice: "Tapping Book opens WhatsApp with your details. Send the message to confirm.",
-      numberNotConfigured: "Number not configured. Add NEXT_PUBLIC_WHATSAPP_NUMBER to enable WhatsApp handoff.",
+      numberNotConfiguredDevelopment: "Number not configured. Add NEXT_PUBLIC_WHATSAPP_NUMBER to enable WhatsApp handoff.",
+      numberNotConfiguredProduction: "WhatsApp isn't connected in this demo yet.",
       numberNotConfiguredWarning: "NEXT_PUBLIC_WHATSAPP_NUMBER is not configured; WhatsApp handoff is disabled.",
       errors: {
         name: "Enter the student's name.",
